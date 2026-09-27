@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Zoya Bangaram - My Everything ❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        darkrose: '#181114',
+                        rosebase: '#f43f5e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at center, #2d1520 0%, #12090e 100%);
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(4deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(244, 63, 94, 0.8); }
+        }
+        .animate-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a0f14;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4c1d29;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f43f5e;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between antialiased selection:bg-rose-500 selection:text-white overflow-x-hidden">
+
+    <!-- Ambient Background Canvas for Floating Hearts & Flowers -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <div id="app" class="flex-1 flex flex-col justify-between w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8 min-h-screen relative z-10">
+        
+        <!-- Header / Ambient Badge -->
+        <header class="w-full flex justify-between items-center py-2">
+            <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-white/10">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+                <span class="text-xs font-medium text-rose-200 tracking-wide">For Zoya Bangaram ❤️</span>
+            </div>
+            <div id="audio-toggle" onclick="toggleAudio()" class="cursor-pointer bg-white/10 hover:bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-white/10 text-xs text-rose-200 flex items-center space-x-1.5 transition-all">
+                <i class="fa-solid fa-music text-rose-400"></i>
+                <span id="audio-text">Play Melody</span>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col justify-center items-center my-auto w-full relative py-6">
+
+            <!-- 1. HIDDEN PASSWORD SCREEN -->
+            <section id="screen-lock" class="w-full max-w-md bg-white/10 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/15 flex flex-col items-center text-center transition-all duration-500 animate-glow">
+                <div class="w-18 h-18 w-16 h-16 bg-gradient-to-tr from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-xl shadow-rose-500/40 mb-5 animate-float">
+                    <i class="fa-solid fa-heart-lock"></i>
+                </div>
+                <h1 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">Restricted for Zoya Only</h1>
+                <p class="text-rose-200/80 text-sm mb-6 leading-relaxed">
+                    Enter the secret 4-digit code to unlock your surprise. 
+                    <span class="block text-xs text-rose-400 mt-1 italic cursor-pointer hover:underline" onclick="showHint()">Need a subtle hint? 😉</span>
+                </p>
+
+                <!-- PIN Inputs -->
+                <div id="pin-container" class="flex justify-center space-x-3 sm:space-x-4 mb-5">
+                    <input type="password" maxlength="1" class="pin-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white/5 border-2 border-white/20 rounded-2xl text-white focus:border-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-500/20 transition-all" inputmode="numeric">
+                    <input type="password" maxlength="1" class="pin-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white/5 border-2 border-white/20 rounded-2xl text-white focus:border-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-500/20 transition-all" inputmode="numeric">
+                    <input type="password" maxlength="1" class="pin-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white/5 border-2 border-white/20 rounded-2xl text-white focus:border-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-500/20 transition-all" inputmode="numeric">
+                    <input type="password" maxlength="1" class="pin-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-bold bg-white/5 border-2 border-white/20 rounded-2xl text-white focus:border-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-500/20 transition-all" inputmode="numeric">
+                </div>
+
+                <div id="error-msg" class="text-rose-400 text-xs font-medium h-5 mb-4 opacity-0 transition-opacity">
+                    Incorrect code! Hint: It's 0409 🌸
+                </div>
+
+                <button onclick="verifyCode()" class="w-full py-3.5 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-semibold rounded-2xl shadow-lg shadow-rose-500/30 transition-all transform active:scale-95 flex items-center justify-center space-x-2">
+                    <span>Unlock Surprise</span>
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
+                </button>
+            </section>
+
+            <!-- 2. STORY & PHOTO JOURNEY -->
+            <section id="screen-story" class="w-full max-w-2xl hidden flex-col transition-all duration-700 opacity-0 transform translate-y-4">
+                <div class="bg-white/10 backdrop-blur-2xl rounded-3xl p-6 sm:p-10 shadow-2xl border border-white/15 flex flex-col items-center text-center relative overflow-hidden">
+                    
+                    <!-- Progress bar -->
+                    <div class="w-full bg-white/10 h-1.5 rounded-full mb-8 overflow-hidden">
+                        <div id="story-progress" class="bg-gradient-to-r from-rose-500 to-pink-500 h-full transition-all duration-500" style="width: 20%;"></div>
+                    </div>
+
+                    <!-- Chapter Container -->
+                    <div id="story-content" class="w-full flex flex-col items-center">
+                        <!-- Dynamically injected via JS -->
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between items-center w-full mt-8 pt-6 border-t border-white/10">
+                        <button id="prev-btn" onclick="prevChapter()" class="px-5 py-2.5 rounded-xl border border-white/20 text-rose-200 hover:bg-white/10 font-medium text-sm transition-all flex items-center space-x-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Previous</span>
+                        </button>
+                        <span id="chapter-indicator" class="text-xs font-semibold text-rose-300/70 uppercase tracking-widest">Chapter 1 of 5</span>
+                        <button id="next-btn" onclick="nextChapter()" class="px-6 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-medium text-sm shadow-lg shadow-rose-500/30 transition-all flex items-center space-x-2">
+                            <span id="next-btn-text">Continue</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 3. INTERACTIVE CHAT SIMULATOR (her1.png integration) -->
+            <section id="screen-chat" class="w-full max-w-md hidden flex-col transition-all duration-700 opacity-0">
+                <div class="bg-[#12090e]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-rose-500/30 flex flex-col h-[560px] overflow-hidden relative">
+                    
+                    <!-- Phone Header -->
+                    <div class="bg-black/60 text-white px-5 py-4 flex items-center justify-between border-b border-white/10">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <img src="her4.jpg" onerror="this.src='https://placehold.co/150x150/4c1d29/ffe4e6?text=Zoya'" alt="Zoya Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-rose-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-black rounded-full"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm">Zoya bangaram ✨</h3>
+                                <p class="text-[11px] text-rose-300/70">gulabjamunchor • Online</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-3 text-rose-300">
+                            <i class="fa-solid fa-phone-alt cursor-pointer hover:text-white transition-colors" onclick="showToast('Calling unavailable in simulation!')"></i>
+                            <i class="fa-solid fa-video cursor-pointer hover:text-white transition-colors" onclick="showToast('Video call unavailable in simulation!')"></i>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Area -->
+                    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-gradient-to-b from-[#181114] to-[#12090e] flex flex-col">
+                        <!-- Messages populated by JS -->
+                    </div>
+
+                    <!-- Chat Input Bar -->
+                    <div class="p-3 bg-black/40 border-t border-white/10 flex items-center space-x-2">
+                        <input type="text" id="chat-input" placeholder="Tap next to watch conversation..." disabled class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-xs text-rose-100 focus:outline-none">
+                        <button id="chat-send-btn" onclick="sendNextChatMessage()" class="bg-rose-500 hover:bg-rose-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg shadow-rose-500/30 transition-all">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 4. CREATIVE MINI-GAME ("Catch Hearts & Bloom Flowers") -->
+            <section id="screen-game" class="w-full max-w-lg hidden flex-col transition-all duration-700 opacity-0">
+                <div class="bg-white/10 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/15 flex flex-col items-center text-center relative overflow-hidden">
+                    
+                    <div class="flex justify-between w-full mb-4 items-center px-2">
+                        <div>
+                            <h3 class="font-serif text-xl font-bold text-white">Catch Hearts & Bloom Flowers 🌸</h3>
+                            <p class="text-xs text-rose-200">Tap falling hearts to catch them! Reach 10 hearts.</p>
+                        </div>
+                        <div class="bg-rose-500/20 border border-rose-500/40 px-3.5 py-1.5 rounded-full text-sm font-bold text-rose-300">
+                            Score: <span id="game-score">0</span>/10
+                        </div>
+                    </div>
+
+                    <!-- Game Canvas Container -->
+                    <div id="game-container" class="w-full h-80 sm:h-96 bg-black/40 rounded-2xl relative overflow-hidden border border-white/10 cursor-crosshair">
+                        <!-- Falling items rendered here via JS -->
+                        <div id="game-instruction" class="absolute inset-0 flex items-center justify-center pointer-events-none p-6 text-center">
+                            <span class="bg-black/70 backdrop-blur-md px-4 py-3 rounded-2xl text-xs text-rose-200 border border-white/10 animate-pulse">
+                                Tap/Click the floating glowing hearts as they appear!
+                            </span>
+                        </div>
+                    </div>
+
+                    <button id="game-next-btn" onclick="finishGame()" class="hidden mt-6 w-full py-3.5 bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold rounded-2xl shadow-lg shadow-rose-500/30 transition-all transform active:scale-95 flex items-center justify-center space-x-2">
+                        <span>Continue to Final Surprise</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 5. FINAL LOVE REVELATION -->
+            <section id="screen-final" class="w-full max-w-2xl hidden flex-col transition-all duration-700 opacity-0">
+                <div class="bg-white/15 backdrop-blur-2xl rounded-3xl p-6 sm:p-10 shadow-2xl border border-rose-500/40 flex flex-col items-center text-center relative overflow-hidden animate-glow">
+                    <div class="absolute -top-12 -right-12 w-48 h-48 bg-rose-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="w-20 h-20 bg-gradient-to-tr from-rose-500 to-pink-500 rounded-3xl flex items-center justify-center text-white text-3xl shadow-xl shadow-rose-500/50 mb-6 animate-float">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-2">To My Dearest Zoya Bangaram</h2>
+                    <span class="inline-block px-4 py-1 bg-rose-500/20 text-rose-300 text-xs font-semibold rounded-full mb-6 tracking-wide uppercase border border-rose-500/30">Nuvvante naaku chaaallaaaaa ishtam ❤️</span>
+
+                    <div class="bg-gradient-to-b from-black/40 to-black/20 border border-white/15 p-6 sm:p-8 rounded-2xl shadow-inner text-left mb-8 w-full relative">
+                        <i class="fa-solid fa-quote-left text-rose-500/30 text-3xl absolute top-4 left-4"></i>
+                        <p class="font-serif text-rose-100/90 text-base sm:text-lg leading-relaxed relative z-10 italic">
+                            "Zoya, from your adorable childhood days with your cute long hair and apple tree memories, to our hilarious late-night chats where you try to ragebait me—every single moment with you is pure magic. You bring absolute joy into my universe. Nuvvante naaku chaaallaaaaa ishtam, today and forever!"
+                        </p>
+                        <div class="mt-6 pt-4 border-t border-white/10 flex justify-between items-center text-xs font-medium text-rose-300">
+                            <span>Forever yours ✨</span>
+                            <span class="font-semibold text-rose-400">Your Favorite Person</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                        <button onclick="triggerGrandCelebration()" class="px-8 py-3.5 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-semibold rounded-2xl shadow-lg shadow-rose-500/30 transition-all transform active:scale-95 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-sparkles"></i>
+                            <span>Celebrate Our Love</span>
+                        </button>
+                        <button onclick="resetExperience()" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-rose-200 font-semibold rounded-2xl transition-all flex items-center justify-center space-x-2 border border-white/10">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Replay Journey</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full text-center py-3 text-xs text-rose-300/60 z-10">
+            Made with infinite love for Zoya Bangaram ✨
+        </footer>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-md text-rose-200 text-xs px-4 py-2.5 rounded-xl shadow-2xl border border-rose-500/30 opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center space-x-2">
+        <i class="fa-solid fa-heart text-rose-500"></i>
+        <span id="toast-text">Notification</span>
+    </div>
+
+    <script>
+        // Ambient Canvas Background for Floating Hearts & Blooming Flowers
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = bgCanvas.height + Math.random() * 100;
+                this.size = Math.random() * 8 + 4;
+                this.speedY = Math.random() * 1.2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 2;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.color = Math.random() > 0.5 ? '#f43f5e' : '#ec4899';
+            }
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y < -50) {
+                    this.reset();
+                }
+            }
+            draw() {
+                bgCtx.save();
+                bgCtx.translate(this.x, this.y);
+                bgCtx.rotate((this.rotation * Math.PI) / 180);
+                bgCtx.globalAlpha = this.opacity;
+                bgCtx.fillStyle = this.color;
+                
+                // Draw heart shape
+                bgCtx.beginPath();
+                let topCurveHeight = this.size * 0.3;
+                bgCtx.moveTo(0, topCurveHeight);
+                // left curve
+                bgCtx.bezierCurveTo(
+                    -this.size / 2, -this.size / 2,
+                    -this.size, this.size / 3,
+                    0, this.size
+                );
+                // right curve
+                bgCtx.bezierCurveTo(
+                    this.size, this.size / 3,
+                    this.size / 2, -this.size / 2,
+                    0, topCurveHeight
+                );
+                bgCtx.fill();
+                bgCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < 25; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // State Management
+        let currentChapter = 0;
+        const SECRET_CODE = "0409";
+        let isAudioPlaying = false;
+        let audioCtx = null;
+        let oscillator = null;
+        let gainNode = null;
+
+        function toggleAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            const btnText = document.getElementById('audio-text');
+            if (!isAudioPlaying) {
+                try {
+                    oscillator = audioCtx.createOscillator();
+                    gainNode = audioCtx.createGain();
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(329.63, audioCtx.currentTime); // E4 note
+                    gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    oscillator.start();
+                    isAudioPlaying = true;
+                    btnText.innerText = 'Melody Playing 🎶';
+                    showToast('Ambient romance melody enabled 🎵');
+                } catch(e) {
+                    showToast('Audio playback enabled!');
+                }
+            } else {
+                if (oscillator) {
+                    oscillator.stop();
+                    oscillator.disconnect();
+                }
+                isAudioPlaying = false;
+                btnText.innerText = 'Play Melody';
+                showToast('Ambient melody paused');
+            }
+        }
+
+        function showHint() {
+            showToast('Hint: The secret code is 0409 ✨');
+            const pinInputs = document.querySelectorAll('.pin-input');
+            pinInputs.forEach((input, idx) => {
+                const hintVals = ['0', '4', '0', '9'];
+                input.placeholder = hintVals[idx];
+            });
+        }
+
+        // Story Chapters Data featuring actual images (her2.jpg, her3.jpg, her4.jpg, her5.jpg)
+        const chapters = [
+            {
+                title: "Little Zoya's Magic",
+                subtitle: "Chapter 1: The Adorable Early Days",
+                image: "her3.jpg",
+                fallbackImage: "https://placehold.co/600x400/4c1d29/ffe4e6?text=Little+Zoya",
+                caption: "Look at this absolute cuteness! Long before anyone knew how extraordinary you'd become, Zoya, you were already lighting up every room with your sweetest smiles and bright eyes."
+            },
+            {
+                title: "Apple Tree Explorer",
+                subtitle: "Chapter 2: Childhood Adventures",
+                image: "her2.jpg",
+                fallbackImage: "https://placehold.co/600x400/4c1d29/ffe4e6?text=Apple+Tree+Memory",
+                caption: "Standing proudly in front of the apple tree with your cool sunglasses and gorgeous sweater—already the most stylish adventurer in town!"
+            },
+            {
+                title: "Growing Into Stunning Beauty",
+                subtitle: "Chapter 3: Present Day Glow",
+                image: "her4.jpg",
+                fallbackImage: "https://placehold.co/600x400/4c1d29/ffe4e6?text=Zoya+Collage",
+                caption: "From cute childhood days to breathtaking elegance. Every single picture of you is an absolute masterpiece, Zoya bangaram."
+            },
+            {
+                title: "Radiant & Gorgeous",
+                subtitle: "Chapter 4: Pure Radiance",
+                image: "her5.jpg",
+                fallbackImage: "https://placehold.co/600x400/4c1d29/ffe4e6?text=Zoya+Present",
+                caption: "Your smile, your charm, and your gorgeous hair take my breath away every single time. You are truly one of a kind."
+            }
+        ];
+
+        // PIN Input Logic
+        const pinInputs = document.querySelectorAll('.pin-input');
+        pinInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value;
+                if (val && index < pinInputs.length - 1) {
+                    pinInputs[index + 1].focus();
+                }
+                checkPinAutoVerify();
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !input.value && index > 0) {
+                    pinInputs[index - 1].focus();
+                }
+            });
+        });
+
+        function checkPinAutoVerify() {
+            let code = "";
+            pinInputs.forEach(i => code += i.value);
+            if (code.length === 4) {
+                verifyCode();
+            }
+        }
+
+        function verifyCode() {
+            let code = "";
+            pinInputs.forEach(i => code += i.value);
+            const errorMsg = document.getElementById('error-msg');
+            const lockSection = document.getElementById('screen-lock');
+
+            if (code === SECRET_CODE) {
+                errorMsg.style.opacity = '0';
+                triggerGrandCelebration();
+                lockSection.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    lockSection.classList.add('hidden');
+                    const storySection = document.getElementById('screen-story');
+                    storySection.classList.remove('hidden');
+                    setTimeout(() => storySection.classList.add('opacity-100', 'translate-y-0'), 50);
+                    renderChapter();
+                }, 400);
+            } else {
+                errorMsg.style.opacity = '1';
+                pinInputs.forEach(i => {
+                    i.classList.add('animate-shake', 'border-rose-500', 'bg-rose-500/20');
+                });
+                setTimeout(() => {
+                    pinInputs.forEach(i => {
+                        i.classList.remove('animate-shake', 'border-rose-500', 'bg-rose-500/20');
+                        i.value = '';
+                    });
+                    pinInputs[0].focus();
+                }, 500);
+            }
+        }
+
+        // Render Story Chapters
+        function renderChapter() {
+            const ch = chapters[currentChapter];
+            const contentContainer = document.getElementById('story-content');
+            const progressBar = document.getElementById('story-progress');
+            const indicator = document.getElementById('chapter-indicator');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtnText = document.getElementById('next-btn-text');
+
+            progressBar.style.width = `${((currentChapter + 1) / (chapters.length + 2)) * 100}%`;
+            indicator.innerText = `Chapter ${currentChapter + 1} of 6`;
+            prevBtn.disabled = currentChapter === 0;
+
+            nextBtnText.innerText = "Continue Journey";
+
+            contentContainer.innerHTML = `
+                <div class="w-full flex flex-col items-center animate-fadeIn">
+                    <span class="text-xs font-semibold text-rose-400 uppercase tracking-widest mb-1">${ch.subtitle}</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-6">${ch.title}</h2>
+                    
+                    <div class="relative w-full max-w-md h-64 sm:h-72 rounded-2xl overflow-hidden shadow-2xl border-2 border-rose-500/40 mb-6 group bg-black/40">
+                        <img src="${ch.image}" onerror="this.src='${ch.fallbackImage}'" alt="${ch.title}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-70"></div>
+                    </div>
+
+                    <p class="text-rose-100/90 text-sm sm:text-base leading-relaxed max-w-lg bg-white/5 p-4 rounded-2xl border border-white/10">
+                        ${ch.caption}
+                    </p>
+                </div>
+            `;
+        }
+
+        function nextChapter() {
+            if (currentChapter < chapters.length - 1) {
+                currentChapter++;
+                renderChapter();
+            } else {
+                // Transition to Chat Simulator (her1.png)
+                transitionToChat();
+            }
+        }
+
+        function prevChapter() {
+            if (currentChapter > 0) {
+                currentChapter--;
+                renderChapter();
+            }
+        }
+
+        // Transition to Chat Screen
+        function transitionToChat() {
+            const storySection = document.getElementById('screen-story');
+            storySection.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                storySection.classList.add('hidden');
+                const chatSection = document.getElementById('screen-chat');
+                chatSection.classList.remove('hidden');
+                setTimeout(() => {
+                    chatSection.classList.add('opacity-100');
+                    initChatSimulation();
+                }, 50);
+            }, 400);
+        }
+
+        // Chat Script based on her1.png
+        const chatScript = [
+            { sender: 'user', text: 'Walking on empty road in Russia with all my...' },
+            { sender: 'zoya', text: 'what happened we just chillin my bujji bangaram' },
+            { sender: 'user', text: 'I want to ragebait you' },
+            { sender: 'user', text: "And you can't understand" },
+            { sender: 'user', text: 'Lamaav 🤣🤣🤣' },
+            { sender: 'zoya', text: 'it aint working gng' },
+            { sender: 'user', text: "I'll never be serious remember 😭😭" },
+            { sender: 'zoya', text: 'nothing will work gng nuvvante naaku chaaallaaaaa ishtam' }
+        ];
+
+        let chatIndex = 0;
+
+        function initChatSimulation() {
+            const chatContainer = document.getElementById('chat-messages');
+            chatContainer.innerHTML = '';
+            chatIndex = 0;
+            appendNextMessage();
+        }
+
+        function appendNextMessage() {
+            if (chatIndex >= chatScript.length) {
+                const sendBtn = document.getElementById('chat-send-btn');
+                sendBtn.innerHTML = '<i class="fa-solid fa-arrow-right text-xs"></i>';
+                sendBtn.onclick = transitionToGame;
+                document.getElementById('chat-input').placeholder = "Tap arrow to start the mini-game! ✨";
+                showToast('Chat simulation complete! Tap arrow to play the mini-game.');
+                return;
+            }
+
+            const msg = chatScript[chatIndex];
+            const chatContainer = document.getElementById('chat-messages');
+            
+            const bubbleWrapper = document.createElement('div');
+            bubbleWrapper.className = `flex w-full mb-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`;
+
+            const bubble = document.createElement('div');
+            bubble.className = `max-w-[80%] px-4 py-3 rounded-2xl text-xs sm:text-sm shadow-md leading-relaxed ${
+                msg.sender === 'user' 
+                    ? 'bg-rose-600 text-white rounded-br-none' 
+                    : 'bg-white/10 text-rose-100 border border-white/10 rounded-bl-none font-medium'
+            }`;
+            bubble.innerText = msg.text;
+
+            bubbleWrapper.appendChild(bubble);
+            chatContainer.appendChild(bubbleWrapper);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            chatIndex++;
+
+            if (chatIndex < chatScript.length) {
+                setTimeout(appendNextMessage, 1500);
+            } else {
+                setTimeout(() => {
+                    const sendBtn = document.getElementById('chat-send-btn');
+                    sendBtn.innerHTML = '<i class="fa-solid fa-arrow-right text-xs animate-bounce"></i>';
+                    sendBtn.onclick = transitionToGame;
+                }, 1000);
+            }
+        }
+
+        function sendNextChatMessage() {
+            if (chatIndex < chatScript.length) {
+                appendNextMessage();
+            } else {
+                transitionToGame();
+            }
+        }
+
+        // Transition to Mini-Game
+        function transitionToGame() {
+            const chatSection = document.getElementById('screen-chat');
+            chatSection.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                chatSection.classList.add('hidden');
+                const gameSection = document.getElementById('screen-game');
+                gameSection.classList.remove('hidden');
+                setTimeout(() => {
+                    gameSection.classList.add('opacity-100');
+                    initMiniGame();
+                }, 50);
+            }, 400);
+        }
+
+        // Mini-Game Logic ("Catch Hearts & Bloom Flowers")
+        let gameScore = 0;
+        const targetScore = 10;
+        let gameInterval = null;
+        let activeHearts = [];
+
+        function initMiniGame() {
+            gameScore = 0;
+            document.getElementById('game-score').innerText = gameScore;
+            document.getElementById('game-next-btn').classList.add('hidden');
+            document.getElementById('game-instruction').style.display = 'flex';
+            activeHearts = [];
+
+            const container = document.getElementById('game-container');
+            // Clear previous elements except instruction
+            const instruction = document.getElementById('game-instruction');
+            container.innerHTML = '';
+            container.appendChild(instruction);
+
+            if (gameInterval) clearInterval(gameInterval);
+
+            gameInterval = setInterval(() => {
+                spawnHeart(container);
+            }, 900);
+        }
+
+        function spawnHeart(container) {
+            if (gameScore >= targetScore) return;
+
+            const heart = document.createElement('div');
+            heart.className = 'absolute cursor-pointer text-2xl sm:text-3xl select-none transition-transform transform hover:scale-125 animate-float';
+            
+            const symbols = ['❤️', '💖', '🌸', '💐', '🌷', '💗'];
+            heart.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            const maxX = container.clientWidth - 40;
+            const randomX = Math.random() * Math.max(maxX, 50);
+            heart.style.left = `${randomX}px`;
+            heart.style.bottom = `-40px`;
+
+            // Random float up animation duration
+            const duration = Math.random() * 2 + 2.5;
+            heart.style.transition = `bottom ${duration}s linear, opacity 0.5s ease`;
+            
+            container.appendChild(heart);
+
+            // Hide instruction on first spawn
+            if (gameScore === 0) {
+                document.getElementById('game-instruction').style.display = 'none';
+            }
+
+            setTimeout(() => {
+                heart.style.bottom = `${container.clientHeight + 40}px`;
+            }, 50);
+
+            heart.addEventListener('click', (e) => {
+                e.stopPropagation();
+                catchHeart(heart, container);
+            });
+            heart.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                catchHeart(heart, container);
+            });
+
+            // Remove after animation completes
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, duration * 1000);
+        }
+
+        function catchHeart(heart, container) {
+            if (heart.dataset.caught) return;
+            heart.dataset.caught = "true";
+            gameScore++;
+            document.getElementById('game-score').innerText = gameScore;
+
+            // Bloom effect at touch position
+            const rect = heart.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            const bloom = document.createElement('div');
+            bloom.className = 'absolute text-xl pointer-events-none animate-ping';
+            bloom.innerHTML = '🌸';
+            bloom.style.left = `${rect.left - containerRect.left}px`;
+            bloom.style.top = `${rect.top - containerRect.top}px`;
+            container.appendChild(bloom);
+            setTimeout(() => bloom.remove(), 600);
+
+            heart.remove();
+            triggerConfettiBurst(0.5);
+
+            if (gameScore >= targetScore) {
+                clearInterval(gameInterval);
+                // Clear remaining hearts
+                container.querySelectorAll('.absolute').forEach(el => el.remove());
+                
+                const winMsg = document.createElement('div');
+                winMsg.className = 'absolute inset-0 flex flex-col items-center justify-center bg-black/80 backdrop-blur-md p-6 text-center animate-fadeIn';
+                winMsg.innerHTML = `
+                    <div class="text-4xl mb-3">💖🌸✨</div>
+                    <h3 class="font-serif text-2xl font-bold text-white mb-2">Wonderful! All Flowers Bloomed!</h3>
+                    <p class="text-rose-200 text-xs mb-4">You successfully caught all the hearts for Zoya bangaram!</p>
+                `;
+                container.appendChild(winMsg);
+
+                document.getElementById('game-next-btn').classList.remove('hidden');
+                triggerGrandCelebration();
+            }
+        }
+
+        function finishGame() {
+            const gameSection = document.getElementById('screen-game');
+            gameSection.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                gameSection.classList.add('hidden');
+                const finalSection = document.getElementById('screen-final');
+                finalSection.classList.remove('hidden');
+                setTimeout(() => {
+                    finalSection.classList.add('opacity-100');
+                    triggerGrandCelebration();
+                }, 50);
+            }, 400);
+        }
+
+        // Reset Experience
+        function resetExperience() {
+            currentChapter = 0;
+            const finalSection = document.getElementById('screen-final');
+            finalSection.classList.add('hidden');
+            
+            pinInputs.forEach(i => i.value = '');
+
+            const lockSection = document.getElementById('screen-lock');
+            lockSection.classList.remove('hidden', 'opacity-0', 'scale-95');
+            pinInputs[0].focus();
+            showToast('Experience restarted successfully! 🌸');
+        }
+
+        // Confetti celebrations
+        function triggerGrandCelebration() {
+            confetti({
+                particleCount: 120,
+                spread: 90,
+                origin: { y: 0.6 },
+                colors: ['#f43f5e', '#ec4899', '#fda4af', '#ffe4e6', '#fbbf24']
+            });
+            setTimeout(() => {
+                confetti({
+                    particleCount: 80,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+            }, 250);
+            setTimeout(() => {
+                confetti({
+                    particleCount: 80,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+            }, 400);
+        }
+
+        function triggerConfettiBurst(originY = 0.6) {
+            confetti({
+                particleCount: 40,
+                spread: 50,
+                origin: { y: originY },
+                colors: ['#f43f5e', '#ec4899', '#fda4af']
+            });
+        }
+
+        // Toast notification helper
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toastText.innerText = text;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        window.onload = () => {
+            pinInputs[0].focus();
+        };
+    </script>
+</body>
+</html>
