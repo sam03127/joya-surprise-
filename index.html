@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Bujji Bangaram ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,14 +13,27 @@
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(circle at center, #1f0524, #0b0110);
+            font-family: 'Outfit', sans-serif;
+            background: #09010f;
             color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        /* Background ambient glowing particles */
+        .bg-glow {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 105, 180, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.15) 0%, transparent 40%);
+            z-index: 1;
         }
 
         .screen {
@@ -31,7 +44,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 20px;
             z-index: 10;
         }
@@ -39,36 +52,42 @@
         .hidden {
             opacity: 0;
             pointer-events: none;
-            transform: scale(0.96);
+            transform: scale(1.05);
+            filter: blur(10px);
             display: none;
         }
 
-        /* Luxury Lock Screen */
-        #lock-screen {
-            background: radial-gradient(circle, #2c093e, #0f0216);
+        /* Cinematic Lock Screen */
+        .lock-card {
+            background: rgba(25, 5, 35, 0.65);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            padding: 45px 35px;
+            border-radius: 35px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px rgba(255, 105, 180, 0.1);
+            max-width: 400px;
+            width: 100%;
+            z-index: 2;
+            animation: floatCard 6s ease-in-out infinite;
         }
 
-        .lock-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 105, 180, 0.2);
-            padding: 40px 30px;
-            border-radius: 30px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            max-width: 380px;
-            width: 100%;
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .lock-card h1 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-            color: #ffb8d9;
-            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffb3d9, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
         }
 
         .lock-card p {
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: #d1d1d1;
             margin-bottom: 25px;
             line-height: 1.5;
@@ -82,42 +101,42 @@
         }
 
         .dot {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             border: 2px solid #ff69b4;
-            background: rgba(255, 105, 180, 0.1);
-            transition: all 0.3s ease;
+            background: rgba(255, 105, 180, 0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .dot.active-dot {
             background: #ff69b4;
-            box-shadow: 0 0 12px #ff69b4;
-            transform: scale(1.15);
+            box-shadow: 0 0 15px #ff69b4, 0 0 30px #ff69b4;
+            transform: scale(1.2);
         }
 
         .keypad-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            max-width: 250px;
+            gap: 14px;
+            max-width: 260px;
             margin: 0 auto;
         }
 
         .num-btn {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.3rem;
+            width: 65px;
+            height: 65px;
+            font-size: 1.4rem;
             color: #fff;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: 500;
+            font-weight: 600;
             margin: 0 auto;
         }
 
@@ -125,199 +144,240 @@
             background: #ff69b4;
             border-color: #ff69b4;
             transform: scale(0.92);
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
         }
 
         .clear-btn {
-            font-size: 0.9rem;
-            background: rgba(255, 70, 70, 0.15);
-            border-color: rgba(255, 70, 70, 0.3);
+            font-size: 1rem;
+            background: rgba(255, 75, 75, 0.15);
+            border-color: rgba(255, 75, 75, 0.3);
         }
 
-        .clear-btn:hover, .clear-btn:active {
-            background: #ff4747 !important;
-            border-color: #ff4747 !important;
+        .clear-btn:hover {
+            background: #ff4b4b !important;
+            border-color: #ff4b4b !important;
         }
 
-        /* Experience Container */
+        /* Main Container */
         .main-wrapper {
             max-width: 650px;
             width: 100%;
             margin: 0 auto;
             text-align: center;
             position: relative;
+            z-index: 2;
         }
 
         .story-chapter {
             display: none;
-            animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: chapterEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .story-chapter.show {
             display: block;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes chapterEnter {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Elegant Image Display */
+        /* Immersive Photo Card */
         .media-card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255, 105, 180, 0.25);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            background: rgba(25, 5, 35, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 28px;
+            padding: 22px;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             margin: 20px auto;
-            max-width: 420px;
-            animation: pulseGlow 4s ease-in-out infinite;
+            max-width: 440px;
+            transition: transform 0.4s ease;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { border-color: rgba(255, 105, 180, 0.25); }
-            50% { border-color: rgba(255, 105, 180, 0.6); box-shadow: 0 0 25px rgba(255, 105, 180, 0.2); }
+        .media-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 105, 180, 0.6);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 25px rgba(255, 105, 180, 0.2);
         }
 
         .media-card img {
             width: 100%;
-            height: 340px;
+            height: 360px;
             object-fit: cover;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border-radius: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .media-card p {
-            margin-top: 15px;
-            font-size: 1.05rem;
+            margin-top: 18px;
+            font-size: 1.1rem;
             color: #ffccd9;
-            font-weight: 400;
+            font-weight: 500;
         }
 
-        /* Chat Styling */
+        /* Real-Time Chat Simulator */
         .chat-box {
-            background: rgba(18, 3, 26, 0.85);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255, 105, 180, 0.3);
-            max-width: 420px;
+            background: rgba(15, 2, 22, 0.85);
+            border-radius: 24px;
+            padding: 22px;
+            border: 1px solid rgba(255, 105, 180, 0.35);
+            max-width: 440px;
             margin: 0 auto;
             text-align: left;
-            height: 340px;
+            height: 360px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
         }
 
         .bubble {
-            padding: 10px 14px;
-            border-radius: 14px;
+            padding: 12px 16px;
+            border-radius: 16px;
             max-width: 82%;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            animation: fadeInMsg 0.4s ease;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            animation: msgPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        @keyframes fadeInMsg {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes msgPop {
+            from { opacity: 0; transform: translateY(15px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .bubble.partner {
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
             align-self: flex-start;
-            border-bottom-left-radius: 3px;
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .bubble.user {
             background: linear-gradient(135deg, #ff69b4, #ff1493);
             color: #fff;
             align-self: flex-end;
-            border-bottom-right-radius: 3px;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
         }
 
-        /* Mini Game Area */
+        /* Typing Indicator dots */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            align-self: flex-start;
+            align-items: center;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: #ffb3d9;
+            border-radius: 50%;
+            animation: bounceDot 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounceDot {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
+        /* Mini Game Canvas */
         .game-canvas {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            border: 2px dashed rgba(255, 105, 180, 0.4);
-            height: 320px;
+            background: rgba(20, 2, 30, 0.7);
+            border-radius: 28px;
+            border: 2px dashed rgba(255, 105, 180, 0.5);
+            height: 340px;
             position: relative;
             overflow: hidden;
             margin: 20px auto;
-            max-width: 420px;
+            max-width: 440px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
         }
 
         .heart-item {
             position: absolute;
             cursor: pointer;
-            font-size: 2.2rem;
-            animation: floatUp 3s linear infinite;
+            font-size: 2.5rem;
+            animation: floatUpGame 2.8s linear infinite;
             user-select: none;
             transition: transform 0.2s;
+            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.8));
         }
 
         .heart-item:hover {
-            transform: scale(1.3);
+            transform: scale(1.4) rotate(10deg);
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(320px) scale(0.6); opacity: 0; }
-            30% { opacity: 1; }
-            100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
+        @keyframes floatUpGame {
+            0% { transform: translateY(350px) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.2); opacity: 0; }
         }
 
         .flower-bloom {
             position: absolute;
-            font-size: 2.2rem;
-            animation: popBloom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            font-size: 2.5rem;
+            animation: popBloom 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.4) forwards;
             pointer-events: none;
+            filter: drop-shadow(0 0 12px rgba(255, 182, 193, 0.9));
         }
 
         @keyframes popBloom {
-            0% { transform: scale(0) rotate(-30deg); opacity: 0; }
-            70% { transform: scale(1.5) rotate(15deg); opacity: 1; }
-            100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            70% { transform: scale(1.6) rotate(20deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
         }
 
-        /* Custom Buttons & Typography */
+        /* Action Buttons */
         .next-btn {
-            background: linear-gradient(135deg, #ff69b4, #e60073);
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
             border: none;
-            padding: 12px 32px;
+            padding: 14px 36px;
             color: #fff;
-            font-size: 0.95rem;
-            border-radius: 30px;
+            font-size: 1rem;
+            border-radius: 35px;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
             transition: all 0.3s ease;
             margin-top: 15px;
-            font-weight: 600;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .next-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.7);
         }
 
         .final-signature {
             font-family: 'Great Vibes', cursive;
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             color: #ffb8d9;
-            margin-top: 15px;
+            margin-top: 20px;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
         }
     </style>
 </head>
 <body>
 
+    <div class="bg-glow"></div>
+
     <!-- LOCK SCREEN -->
     <div id="lock-screen" class="screen">
         <div class="lock-card">
-            <h1>🔒 Special Surprise</h1>
-            <p>Enter the 4-digit code to reveal what's inside, Zoya bangaram ✨</p>
+            <h1>🔒 Secret Love Portal</h1>
+            <p>Enter the 4-digit code to unlock your custom surprise, Zoya bangaram ✨</p>
             <div class="pin-dots">
                 <div class="dot" id="d0"></div>
                 <div class="dot" id="d1"></div>
@@ -337,18 +397,18 @@
                 <button class="num-btn clear-btn" onclick="clearPin()">⌫</button>
                 <button class="num-btn" onclick="handleKey('0')">0</button>
             </div>
-            <p id="warn-msg" style="color: #ff6b6b; margin-top: 15px; font-size: 0.8rem; height: 18px;"></p>
+            <p id="warn-msg" style="color: #ff6b6b; margin-top: 15px; font-size: 0.85rem; height: 18px; font-weight: 500;"></p>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN EXPERIENCE -->
     <div id="main-screen" class="screen hidden">
         <div class="main-wrapper">
 
-            <!-- CHAPTER 1: CHILDHOOD PIC 1 -->
+            <!-- CHAPTER 1: CHILDHOOD 1 -->
             <div id="ch-1" class="story-chapter show">
-                <h2 style="color: #ffb3d9; margin-bottom: 5px; font-weight: 600;">Chapter 1: The Sweetest Beginnings 🌸</h2>
-                <p style="font-size: 0.88rem; color: #ccc;">Look how precious you've always been...</p>
+                <h2 style="color: #ffb3d9; margin-bottom: 6px; font-weight: 700; font-size: 1.6rem;">Chapter 1: The Cutest Beginnings 🌸</h2>
+                <p style="font-size: 0.95rem; color: #d1d1d1;">Look how absolute precious you've always been...</p>
                 <div class="media-card">
                     <img src="her2.jpg" alt="Childhood Pic">
                     <p>Little Zoya shining bright from day one! ✨</p>
@@ -356,10 +416,10 @@
                 <button class="next-btn" onclick="goToChapter(2)">Next Memory 💖</button>
             </div>
 
-            <!-- CHAPTER 2: CHILDHOOD PIC 2 -->
+            <!-- CHAPTER 2: CHILDHOOD 2 -->
             <div id="ch-2" class="story-chapter">
-                <h2 style="color: #ffb3d9; margin-bottom: 5px; font-weight: 600;">Chapter 2: Pure Joy 🌷</h2>
-                <p style="font-size: 0.88rem; color: #ccc;">That adorable smile hasn't changed a bit.</p>
+                <h2 style="color: #ffb3d9; margin-bottom: 6px; font-weight: 700; font-size: 1.6rem;">Chapter 2: Pure Joy & Innocence 🌷</h2>
+                <p style="font-size: 0.95rem; color: #d1d1d1;">That adorable smile hasn't changed an inch.</p>
                 <div class="media-card">
                     <img src="her3.jpg" alt="Childhood Pic 2">
                     <p>Such a sweet heart! 💫</p>
@@ -369,8 +429,8 @@
 
             <!-- CHAPTER 3: GROWING UP COLLAGE -->
             <div id="ch-3" class="story-chapter">
-                <h2 style="color: #ffb3d9; margin-bottom: 5px; font-weight: 600;">Chapter 3: Growing Up Stunning 🌺</h2>
-                <p style="font-size: 0.88rem; color: #ccc;">Every single version of you is pure magic.</p>
+                <h2 style="color: #ffb3d9; margin-bottom: 6px; font-weight: 700; font-size: 1.6rem;">Chapter 3: Growing Up Stunning 🌺</h2>
+                <p style="font-size: 0.95rem; color: #d1d1d1;">Every single version of you is pure magic.</p>
                 <div class="media-card">
                     <img src="her4.jpg" alt="Collage">
                     <p>Radiant through all your gorgeous phases. 🌸</p>
@@ -380,35 +440,31 @@
 
             <!-- CHAPTER 4: PRESENT PIC -->
             <div id="ch-4" class="story-chapter">
-                <h2 style="color: #ffb3d9; margin-bottom: 5px; font-weight: 600;">Chapter 4: Absolutely Breathtaking 💫</h2>
-                <p style="font-size: 0.88rem; color: #ccc;">Stunning then, gorgeous now.</p>
+                <h2 style="color: #ffb3d9; margin-bottom: 6px; font-weight: 700; font-size: 1.6rem;">Chapter 4: Absolutely Breathtaking 💫</h2>
+                <p style="font-size: 0.95rem; color: #d1d1d1;">Stunning then, breathtaking right now.</p>
                 <div class="media-card">
                     <img src="her5.jpg" alt="Present Pic">
                     <p>My gorgeous bujji bangaram! 💖</p>
                 </div>
-                <button class="next-btn" onclick="goToChapter(5)">Our Fun Chats 😂</button>
+                <button class="next-btn" onclick="goToChapter(5)" onclick="startChatSimulation()">Our Fun Chats 😂</button>
             </div>
 
-            <!-- CHAPTER 5: FUNNY TEXTS -->
+            <!-- CHAPTER 5: REAL-TIME CHAT SIMULATOR -->
             <div id="ch-5" class="story-chapter">
-                <h2 style="color: #ffb3d9; margin-bottom: 5px; font-weight: 600;">Chapter 5: Our Chaos & Banter 📱</h2>
-                <p style="font-size: 0.88rem; color: #ccc; margin-bottom: 12px;">Never serious, always unforgettable.</p>
-                <div class="chat-box">
-                    <div class="bubble partner">Walking on empty road in Russia with all my...</div>
-                    <div class="bubble user">what happened we just chillin my bujji bangaram</div>
-                    <div class="bubble partner">I want to ragebait you & And you can't understand... Lamaav 😂😂😂</div>
-                    <div class="bubble user">it ain't working gng</div>
-                    <div class="bubble partner">nothing will work gng nuvvante naaku chaaalllaaaaaa ishtam ❤️</div>
+                <h2 style="color: #ffb3d9; margin-bottom: 6px; font-weight: 700; font-size: 1.6rem;">Chapter 5: Our Chaos & Banter 📱</h2>
+                <p style="font-size: 0.95rem; color: #d1d1d1; margin-bottom: 12px;">Never serious, always unforgettable.</p>
+                <div class="chat-box" id="chat-container-box">
+                    <!-- Dynamic chat injected via JS -->
                 </div>
-                <button class="next-btn" onclick="goToChapter(6)">Play Mini-Game 🎮</button>
+                <button id="game-portal-btn" class="next-btn hidden" onclick="goToChapter(6); initGame();">Play Mini-Game 🎮</button>
             </div>
 
             <!-- CHAPTER 6: MINI GAME -->
             <div id="ch-6" class="story-chapter">
-                <h2 style="color: #ffb3d9; margin-bottom: 3px; font-weight: 600;">Chapter 6: Catch the Love! 🌸</h2>
-                <p style="font-size: 0.82rem; color: #ccc;">Tap 5 floating hearts to make flowers bloom!</p>
+                <h2 style="color: #ffb3d9; margin-bottom: 4px; font-weight: 700; font-size: 1.6rem;">Chapter 6: Catch the Love! 🌸</h2>
+                <p style="font-size: 0.88rem; color: #d1d1d1;">Tap 5 floating hearts to make flowers bloom!</p>
                 <div class="game-canvas" id="canvas-area">
-                    <div style="position: absolute; top: 12px; width: 100%; text-align: center; font-weight: 600; color: #ff99cc; font-size: 0.9rem; z-index: 5;">
+                    <div style="position: absolute; top: 12px; width: 100%; text-align: center; font-weight: 700; color: #ff99cc; font-size: 0.95rem; z-index: 5;">
                         Hearts Caught: <span id="score-val">0</span> / 5
                     </div>
                 </div>
@@ -417,9 +473,9 @@
 
             <!-- CHAPTER 7: FINAL LOVE REVEAL -->
             <div id="ch-7" class="story-chapter">
-                <h2 style="color: #ffb3d9; margin-bottom: 15px; font-weight: 600;">To My Everything, Zoya Bangaram 💖</h2>
-                <div class="media-card" style="max-width: 380px; padding: 25px;">
-                    <p style="font-size: 0.98rem; line-height: 1.6; color: #fff;">
+                <h2 style="color: #ffb3d9; margin-bottom: 15px; font-weight: 700; font-size: 1.8rem;">To My Everything, Zoya Bangaram 💖</h2>
+                <div class="media-card" style="max-width: 400px; padding: 30px;">
+                    <p style="font-size: 1.05rem; line-height: 1.7; color: #fff;">
                         "Nuvvante naaku chaaalllaaaaaa ishtam." You bring so much joy, laughter, and brightness into my world. No matter how much we tease each other, my heart chose you and it always will. Happy to have you in my life! ✨
                     </p>
                     <div class="final-signature">Forever Yours ❤️</div>
@@ -464,7 +520,6 @@
             if (pinInput === correctPinCode) {
                 document.getElementById('lock-screen').classList.add('hidden');
                 document.getElementById('main-screen').classList.remove('hidden');
-                initGame();
             } else {
                 document.getElementById('warn-msg').innerText = "Incorrect code! Try 0409 😉";
                 setTimeout(() => {
@@ -478,14 +533,81 @@
         function goToChapter(num) {
             document.querySelectorAll('.story-chapter').forEach(c => c.classList.remove('show'));
             document.getElementById(`ch-${num}`).classList.add('show');
+            if(num === 5) {
+                runChatSequence();
+            }
+        }
+
+        // Live Chat Simulator Sequence
+        let chatTriggered = false;
+        function runChatSequence() {
+            if (chatTriggered) return;
+            chatTriggered = true;
+
+            const box = document.getElementById('chat-container-box');
+            box.innerHTML = "";
+
+            const messages = [
+                { sender: 'partner', text: 'Walking on empty road in Russia with all my...' },
+                { sender: 'user', text: 'what happened we just chillin my bujji bangaram' },
+                { sender: 'partner', text: 'I want to ragebait you & And you can\'t understand... Lamaav 😂😂😂' },
+                { sender: 'user', text: 'it ain\'t working gng' },
+                { sender: 'partner', text: 'nothing will work gng nuvvante naaku chaaalllaaaaaa ishtam ❤️' }
+            ];
+
+            let delay = 300;
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    // Show typing indicator before message
+                    const typingId = showTyping(box);
+                    
+                    setTimeout(() => {
+                        removeTyping(typingId);
+                        const bubble = document.createElement('div');
+                        bubble.classList.add('bubble', msg.sender === 'partner' ? 'partner' : 'user');
+                        bubble.innerText = msg.text;
+                        box.appendChild(bubble);
+                        box.scrollTop = box.scrollHeight;
+
+                        // If last message, show the game button
+                        if(index === messages.length - 1) {
+                            setTimeout(() => {
+                                document.getElementById('game-portal-btn').classList.remove('hidden');
+                            }, 600);
+                        }
+                    }, 1000);
+
+                }, delay);
+                delay += 2500;
+            });
+        }
+
+        function showTyping(container) {
+            const id = 'typing-' + Date.now();
+            const typingDiv = document.createElement('div');
+            typingDiv.id = id;
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if(el) el.remove();
         }
 
         // Mini Game Engine
         let caughtCount = 0;
         const goalCount = 5;
         let ticker;
+        let gameInitialized = false;
 
         function initGame() {
+            if (gameInitialized) return;
+            gameInitialized = true;
+
             const area = document.getElementById('canvas-area');
             
             ticker = setInterval(() => {
@@ -495,7 +617,7 @@
                 heart.classList.add('heart-item');
                 heart.innerHTML = '💖';
                 
-                const randomPosX = Math.random() * (area.clientWidth - 45);
+                const randomPosX = Math.random() * (area.clientWidth - 50);
                 heart.style.left = `${randomPosX}px`;
                 heart.style.bottom = '0px';
 
@@ -515,9 +637,9 @@
                 area.appendChild(heart);
                 setTimeout(() => {
                     if (heart.parentElement) heart.remove();
-                }, 3000);
+                }, 2800);
 
-            }, 750);
+            }, 700);
         }
 
         function spawnFlower(x, y) {
@@ -526,13 +648,13 @@
             const collection = ['🌸', '🌺', '🌷', '💮', '🌻'];
             flower.innerHTML = collection[Math.floor(Math.random() * collection.length)];
             
-            flower.style.left = `${x - 20}px`;
-            flower.style.top = `${y - 20}px`;
+            flower.style.left = `${x - 22}px`;
+            flower.style.top = `${y - 22}px`;
             flower.style.position = 'fixed';
             flower.style.zIndex = '9999';
 
             document.body.appendChild(flower);
-            setTimeout(() => flower.remove(), 600);
+            setTimeout(() => flower.remove(), 700);
         }
     </script>
 </body>
